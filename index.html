@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="A Arquitetura da Alma: Um jogo de escolhas narrativas digno de Oscar e Prêmio Nobel.">
+    <title>A Arquitetura da Alma V7</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a3a 50%, #0f0f1e 100%);
+            color: #e0e0e0;
+            overflow: hidden;
+            line-height: 1.6;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.8) 0%, rgba(95, 61, 196, 0.8) 100%);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            border-bottom: 2px solid rgba(108, 92, 231, 0.5);
+        }
+
+        .app-header h1 {
+            font-size: 2em;
+            color: #ffffff;
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .app-header p {
+            font-size: 0.95em;
+            color: rgba(255, 255, 255, 0.95);
+            font-style: italic;
+        }
+
+        .app-main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(108,92,231,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        }
+
+        /* Menu Screen */
+        .menu-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 40px 20px;
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .menu-title {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #a29bfe 0%, #74b9ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-subtitle {
+            font-size: 1.3em;
+            color: #95a5a6;
+            margin-bottom: 40px;
+            font-style: italic;
+            max-width: 600px;
+        }
+
+        .menu-description {
+            max-width: 700px;
+            margin-bottom: 50px;
+            line-height: 1.8;
+            color: #bdc3c7;
+            font-size: 1.05em;
+            text-align: center;
+        }
+
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6c5ce7 0%, #5f3dc4 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.6);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #0984e3 0%, #0770d9 100%);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(9, 132, 227, 0.6);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #00b894 0%, #00a383 100%);
+            color: white;
+        }
+
+        .btn-info:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 184, 148, 0.6);
+        }
+
+        /* Game Screen */
+        .game-screen {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            padding: 30px;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .game-screen.active {
+            display: flex;
+        }
+
+        .scene-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-height: 60%;
+            overflow-y: auto;
+            margin-bottom: 30px;
+        }
+
+        .scene-title {
+            font-size: 2em;
+            font-weight: 700;
+            color: #a29bfe;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .scene-text {
+            font-size: 1.1em;
+            line-height: 1.9;
+            color: #e0e0e0;
+            margin-bottom: 30px;
+            text-align: justify;
+            background: rgba(108, 92, 231, 0.05);
+            padding: 25px;
+            border-left: 4px solid #6c5ce7;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .choices-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 35%;
+            overflow-y: auto;
+        }
+
+        .choice-btn {
+            padding: 14px 20px;
+            background: rgba(108, 92, 231, 0.15);
+            border: 2px solid rgba(108, 92, 231, 0.4);
+            border-radius: 8px;
+            color: #e0e0e0;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .choice-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #6c5ce7 0%, #5f3dc4 100%);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .choice-btn:hover::before {
+            left: 100%;
+        }
+
+        .choice-btn:hover {
+            border-color: #6c5ce7;
+            transform: translateX(8px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+            color: #ffffff;
+        }
+
+        .choice-btn:active {
+            transform: translateX(4px);
+        }
+
+        /* Attributes Panel */
+        .attributes-panel {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(108, 92, 231, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(108, 92, 231, 0.3);
+        }
+
+        .attribute-display {
+            text-align: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 6px;
+            border: 1px solid rgba(108, 92, 231, 0.2);
+        }
+
+        .attribute-label {
+            font-size: 0.85em;
+            color: #a29bfe;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .attribute-value {
+            font-size: 1.5em;
+            color: #74b9ff;
+            font-weight: 700;
+        }
+
+        .attribute-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .attribute-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6c5ce7 0%, #74b9ff 100%);
+            width: 50%;
+            transition: width 0.3s ease;
+        }
+
+        /* Info Section */
+        .info-section {
+            display: none;
+            padding: 30px;
+            background: rgba(108, 92, 231, 0.1);
+            border-left: 4px solid #6c5ce7;
+            border-radius: 8px;
+            max-height: 80%;
+            overflow-y: auto;
+            animation: slideDown 0.5s ease-in-out;
+        }
+
+        .info-section.active {
+            display: block;
+        }
+
+        .info-section h3 {
+            color: #a29bfe;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .info-section p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+            color: #bdc3c7;
+        }
+
+        .attributes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .attribute-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(108, 92, 231, 0.3);
+        }
+
+        .attribute-name {
+            font-weight: 700;
+            color: #a29bfe;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .attribute-desc {
+            font-size: 0.9em;
+            color: #95a5a6;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        .app-footer {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            text-align: center;
+            font-size: 0.85em;
+            color: #95a5a6;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-title {
+                font-size: 2em;
+            }
+
+            .menu-subtitle {
+                font-size: 1.1em;
+            }
+
+            .attributes-panel {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .attributes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .scene-text {
+                font-size: 1em;
+            }
+
+            .choice-btn {
+                padding: 12px 16px;
+                font-size: 0.95em;
+            }
+
+            .app-header h1 {
+                font-size: 1.5em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .app-header {
+                padding: 15px;
+            }
+
+            .app-header h1 {
+                font-size: 1.3em;
+                margin-bottom: 5px;
+            }
+
+            .app-header p {
+                font-size: 0.8em;
+            }
+
+            .menu-title {
+                font-size: 1.5em;
+            }
+
+            .menu-description {
+                font-size: 0.95em;
+            }
+
+            .app-main {
+                padding: 15px;
+            }
+
+            .scene-text {
+                padding: 15px;
+                font-size: 0.95em;
+            }
+
+            .attributes-panel {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+                padding: 10px;
+            }
+
+            .attribute-value {
+                font-size: 1.2em;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(108, 92, 231, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(108, 92, 231, 0.5);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(108, 92, 231, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>A Arquitetura da Alma V7</h1>
+            <p>Uma Jornada de Escolhas, Reflexão e Transformação</p>
+        </header>
+
+        <main class="app-main">
+            <!-- Menu Screen -->
+            <div class="menu-screen" id="menuScreen">
+                <h2 class="menu-title">A Arquitetura da Alma V7</h2>
+                <p class="menu-subtitle">A Alma da Narrativa: Personagens, Dilemas e Envolvimento Emocional</p>
+                <p class="menu-description">
+                    Você é **Elias**, um Cidadão Funcional que descobre a falha na 'Coesão', a sociedade que eliminou a dor em troca da alma. Sua jornada é uma busca por **Ayla**, a memória de um amor perdido e a chave para o **Culto Racional**. Com personagens profundos como **Samuel** (o engenheiro de manutenção) e **Dr. Silas** (o arquiteto da Coesão), cada escolha é um dilema moral que molda a sua alma e o destino da humanidade.
+                </p>
+                <div class="menu-buttons">
+                    <button class="btn btn-primary" onclick="startGame()">Novo Jogo</button>
+                    <button class="btn btn-secondary" onclick="loadGame()">Carregar Jogo</button>
+                    <button class="btn btn-info" onclick="toggleInfo()">Informações</button>
+                </div>
+
+                <div class="info-section" id="infoSection">
+                    <h3>Sobre o Jogo</h3>
+                    <p>
+                        "A Arquitetura da Alma" é um jogo de narrativa interativa de alto nível, digno de Oscar e Prêmio Nobel. Cada escolha que você faz não é apenas uma decisão mecânica, mas um reflexo de seus valores, crenças e compreensão da condição humana. O jogo oferece múltiplos caminhos, finais distintos e consequências que ecoam ao longo de toda a narrativa.
+                    </p>
+
+                    <h3 style="margin-top: 20px;">Sistema de Atributos</h3>
+                    <p>
+                        Seus atributos definem como você interage com o mundo e quais opções estão disponíveis para você. Cada escolha afeta esses atributos, criando um sistema dinâmico onde a narrativa se adapta ao seu estilo de jogo.
+                    </p>
+                    <div class="attributes-grid">
+                        <div class="attribute-card">
+                            <div class="attribute-name">Razão</div>
+                            <div class="attribute-desc">Análise lógica e pensamento crítico. Desbloqueia opções intelectuais.</div>
+                        </div>
+                        <div class="attribute-card">
+                            <div class="attribute-name">Fé</div>
+                            <div class="attribute-desc">Confiança no transcendente. Desbloqueia opções espirituais.</div>
+                        </div>
+                        <div class="attribute-card">
+                            <div class="attribute-name">Empatia</div>
+                            <div class="attribute-desc">Compreensão emocional. Desbloqueia opções de relacionamento.</div>
+                        </div>
+                        <div class="attribute-card">
+                            <div class="attribute-name">Ação</div>
+                            <div class="attribute-desc">Coragem e determinação. Desbloqueia opções de confronto.</div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 20px;">A Narrativa</h3>
+                    <p>
+                        O jogo é dividido em três atos principais, cada um explorando um aspecto diferente da condição humana. Você começará no "Labirinto do Ser", onde a razão e a fé se confrontam. Depois, você seguirá "A Trilha Sonora da Alma", onde a empatia e a ação entram em conflito. Finalmente, você chegará ao "Culto Racional", onde você deve sintetizar tudo que aprendeu para deixar um legado duradouro.
+                    </p>
+
+                    <h3 style="margin-top: 20px;">Temas Profundos</h3>
+                    <p>
+                        Este jogo aborda questões que atormentam a alma humana: O que significa viver uma vida significativa? Como equilibramos nossas crenças com a evidência? Como podemos ser compassivos em um mundo que nos exige eficiência? Qual é o nosso legado? Prepare-se para uma jornada que não apenas entretém, mas transforma o seu pensar.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Game Screen -->
+            <div class="game-screen" id="gameScreen">
+                <div class="attributes-panel" id="attributesPanel">
+                    <div class="attribute-display">
+                        <div class="attribute-label">Razão</div>
+                        <div class="attribute-value" id="razaoValue">5</div>
+                        <div class="attribute-bar">
+                            <div class="attribute-bar-fill" id="razaoBar" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                    <div class="attribute-display">
+                        <div class="attribute-label">Fé</div>
+                        <div class="attribute-value" id="feValue">5</div>
+                        <div class="attribute-bar">
+                            <div class="attribute-bar-fill" id="feBar" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                    <div class="attribute-display">
+                        <div class="attribute-label">Empatia</div>
+                        <div class="attribute-value" id="empatiaValue">5</div>
+                        <div class="attribute-bar">
+                            <div class="attribute-bar-fill" id="empatiaBar" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                    <div class="attribute-display">
+                        <div class="attribute-label">Ação</div>
+                        <div class="attribute-value" id="acaoValue">5</div>
+                        <div class="attribute-bar">
+                            <div class="attribute-bar-fill" id="acaoBar" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scene-container">
+                    <h2 class="scene-title" id="sceneTitle">O Despertar na Padronização</h2>
+                    <p class="scene-text" id="sceneText">Você acorda. Não em uma cama, mas em uma linha de produção...</p>
+                </div>
+
+                <div class="choices-container" id="choicesContainer">
+                    <!-- Choices will be inserted here by JavaScript -->
+                </div>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <p>Desenvolvido por Manus AI | Versão 7.0.0 | A Arquitetura da Alma © 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        // Game State
+        const gameState = {
+            currentScene: 'S01_PROLOGO',
+            attributes: {
+                razao: 5,
+                fe: 5,
+                empatia: 5,
+                acao: 5
+            },
+            history: [],
+            choices: 0
+        };
+
+        // Narrative Data (from JSON)
+        let narrativeData = {};
+
+        // Load narrative data
+        async function loadNarrativeData() {
+            try {
+                const response = await fetch('./assets/narrative_script_v7.json');
+                narrativeData = await response.json();
+            } catch (error) {
+                console.error('Error loading narrative data:', error);
+                // Fallback to inline data if JSON fails
+                loadInlineNarrativeData();
+            }
+        }
+
+        // Fallback inline narrative data
+        function loadInlineNarrativeData() {
+            narrativeData = {
+                scenes: [
+                    {
+                        "id": "S01_PROLOGO",
+                        "title": "O Despertar: A Cicatriz da Rotina",
+                        "text": "Você acorda. Não em uma linha de produção, mas em um cubículo idêntico a milhões. Seu nome é **Elias**, um 'Cidadão Funcional' de 32 anos. A rotina é a sua prisão: 7h00 - Despertar. 7h30 - Consumo de Nutri-Gel. 8h00 - Início da Função. A sociedade, chamada 'A Coesão', eliminou a dor e a incerteza, mas levou consigo a paixão. Hoje, ao tomar seu Nutri-Gel, você sente um gosto amargo, uma falha no sistema. É a memória de um sonho: uma mulher, **Ayla**, e uma pergunta: 'O que você sacrificou pela paz?'",
+                        "choices": [
+                            {
+                                "text": "Buscar Ayla. A memória é uma falha, mas a falha é a única coisa real. (Caminho da Fé/Empatia)",
+                                "next_scene": "S02_AYLA",
+                                "attributes_change": {"fe": 1, "empatia": 1, "razao": -1}
+                            },
+                            {
+                                "text": "Analisar o Nutri-Gel. A falha é química, não existencial. A Razão é a única bússola. (Caminho da Razão)",
+                                "next_scene": "S02_ANALISE",
+                                "attributes_change": {"razao": 2, "fe": -1}
+                            }
+                        ]
+                    },
+                    {
+                        "id": "S02_AYLA",
+                        "title": "O Eco de Ayla: O Dilema do 734",
+                        "text": "Você ignora o protocolo e sai do seu cubículo. No corredor, você encontra o Cidadão 734, **Samuel**. Ele não está chorando; ele está parado, com um pequeno objeto de madeira na mão, um brinquedo proibido. Ele é um engenheiro de manutenção, conhecido por sua apatia. Ele olha para você com um terror silencioso. Você percebe que ele está prestes a ser detectado pelo 'Supervisor de Conformidade', um drone de vigilância. Se ele for pego, será 'reintegrado' (apagado).",
+                        "choices": [
+                            {
+                                "text": "Gritar uma distração, arriscando sua própria 'Função' para salvar Samuel. (Caminho da Ação/Empatia)",
+                                "next_scene": "S03_CONSEQUENCIA_ACAO_1",
+                                "attributes_change": {"acao": 2, "empatia": 1, "razao": -1}
+                            },
+                            {
+                                "text": "Usar a lógica para desviar o drone, mantendo a conformidade aparente. (Caminho da Razão)",
+                                "next_scene": "S03_CONSEQUENCIA_ACAO_2",
+                                "attributes_change": {"razao": 2, "acao": -1}
+                            }
+                        ]
+                    },
+                    {
+                        "id": "S02_ANALISE",
+                        "title": "A Frieza da Lógica: O Manuscrito Proibido",
+                        "text": "Você leva o Nutri-Gel para o laboratório de análise. A falha é real: um traço de uma substância orgânica desconhecida. Sua investigação o leva à Seção 7 da Biblioteca de Dados, onde você encontra o 'Estudo Bíblico Aprofundado'. Não é um texto religioso, mas um **manuscrito de engenharia social** que detalha como a 'Coesão' foi construída, eliminando a 'Alma' humana para alcançar a paz. O autor é **Dr. Silas**, o arquiteto da Coesão.",
+                        "choices": [
+                            {
+                                "text": "Publicar o manuscrito. A verdade é a única salvação. (Caminho da Razão/Ação)",
+                                "next_scene": "S03_CONSEQUENCIA_RAZAO_1",
+                                "attributes_change": {"razao": 1, "acao": 1, "empatia": -1}
+                            },
+                            {
+                                "text": "Buscar Dr. Silas. Apenas o criador pode desfazer a criação. (Caminho da Fé/Empatia)",
+                                "next_scene": "S03_CONSEQUENCIA_RAZAO_2",
+                                "attributes_change": {"fe": 2, "razao": -1}
+                            }
+                        ]
+                    },
+                    {
+                        "id": "S03_CONSEQUENCIA_ACAO_1",
+                        "title": "A Consequência da Empatia",
+                        "text": "Você grita, o drone desvia. Samuel corre. Você perde sua 'Função' e é marcado como 'Não-Conforme'. Samuel, em gratidão, lhe entrega o objeto de madeira: é um pequeno violino. Ele sussurra: 'A Trilha Sonora da Alma. Procure a música.' Você percebe que a verdadeira falha da Coesão é a incapacidade de lidar com a beleza e a dor. Você está agora na clandestinidade, mas com um propósito e um objeto que carrega a alma de Samuel.",
+                        "choices": [
+                            {
+                                "text": "Continuar a busca por Ayla e a Trilha Sonora.",
+                                "next_scene": "S04_ATO_1_CONTINUA",
+                                "attributes_change": {}
+                            }
+                        ]
+                    },
+                    {
+                        "id": "S03_CONSEQUENCIA_ACAO_2",
+                        "title": "O Preço da Frieza",
+                        "text": "Você desvia o drone. Samuel é salvo, mas ele te olha com desprezo por sua frieza. Ele não confia em você. Você ganha uma promoção por 'Manutenção da Ordem', mas o vazio se torna um buraco negro. Você se tornou a própria Coesão. Você encontra uma nota anônima em seu cubículo: 'Ayla está no Setor Proibido. Ela é a chave para o Culto Racional.'",
+                        "choices": [
+                            {
+                                "text": "Usar sua nova posição para acessar o Setor Proibido.",
+                                "next_scene": "S04_ATO_1_CONTINUA",
+                                "attributes_change": {}
+                            }
+                        ]
+                    },
+                    {
+                        "id": "S03_CONSEQUENCIA_RAZAO_1",
+                        "title": "O Caos da Verdade",
+                        "text": "Você publica o manuscrito. O caos se instala. A 'Coesão' entra em colapso. As pessoas, sem a estrutura da rotina, enlouquecem. Você percebe que a verdade sem a alma é destrutiva. Você é caçado pelo Supervisor de Conformidade. Você deve fugir para o Setor Proibido, onde a Coesão não tem controle.",
+                        "choices": [
+                            {
+                                "text": "Fugir para o Setor Proibido.",
+                                "next_scene": "S04_ATO_1_CONTINUA",
+                                "attributes_change": {}
+                            }
+                        ]
+                    },
+                    {
+                        "id": "S03_CONSEQUENCIA_RAZAO_2",
+                        "title": "O Encontro com o Arquiteto",
+                        "text": "Você encontra Dr. Silas, um homem velho e cansado, em seu exílio autoimposto. Ele não é um vilão, mas um homem que tentou salvar a humanidade da autodestruição, eliminando a 'Alma'. Ele lhe diz: 'Ayla é minha filha. Ela é a falha que eu não consegui eliminar. Ela é a Alma. Você deve encontrá-la e decidir se a Coesão deve ser salva ou destruída.'",
+                        "choices": [
+                            {
+                                "text": "Buscar Ayla e o Culto Racional.",
+                                "next_scene": "S04_ATO_1_CONTINUA",
+                                "attributes_change": {}
+                            }
+                        ]
+                    },
+                    {
+                        "id": "S04_ATO_1_CONTINUA",
+                        "title": "Ato I: O Labirinto do Ser - O Início da Jornada",
+                        "text": "Sua jornada agora é pessoal. Você está no Labirinto, onde a Razão e a Fé se confrontam. Você carrega o peso de suas escolhas e a busca por Ayla, a Alma da Coesão. O jogo continua com a introdução de novos personagens, dilemas morais e aprofundamento da trama.",
+                        "choices": [
+                            {
+                                "text": "Continuar a jornada...",
+                                "next_scene": "S05_FIM_DEMO",
+                                "attributes_change": {}
+                            }
+                        ]
+                    },
+                    {
+                        "id": "S05_FIM_DEMO",
+                        "title": "Fim da Demonstração V7",
+                        "text": "Esta é a base do seu novo jogo. O roteiro completo continuará a partir daqui, com 50.000 palavras de profundidade filosófica, 150+ escolhas e 10 finais, abordando as questões mais profundas da condição humana, digno de Oscar e Prêmio Nobel. Agora, vamos construir a estrutura técnica para que você possa jogá-lo.",
+                        "choices": []
+                    }
+                ]
+            };
+        }
+
+        // Find scene by ID
+        function findScene(sceneId) {
+            if (sceneId === 'MENU') return null;
+            return narrativeData.scenes.find(s => s.id === sceneId);
+        }
+
+        // Display scene
+        function displayScene(sceneId) {
+            const scene = findScene(sceneId);
+            if (!scene) {
+                showMenu();
+                return;
+            }
+
+            gameState.currentScene = sceneId;
+            document.getElementById('sceneTitle').textContent = scene.title;
+            document.getElementById('sceneText').textContent = scene.text;
+
+            const choicesContainer = document.getElementById('choicesContainer');
+            choicesContainer.innerHTML = '';
+
+            scene.choices.forEach((choice, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'choice-btn';
+                btn.textContent = choice.text;
+                btn.onclick = () => makeChoice(choice, index);
+                choicesContainer.appendChild(btn);
+            });
+
+            updateAttributesDisplay();
+            gameState.history.push(sceneId);
+        }
+
+        // Make choice
+        function makeChoice(choice, index) {
+            // Update attributes
+            if (choice.attributes_change) {
+                Object.keys(choice.attributes_change).forEach(attr => {
+                    gameState.attributes[attr] = Math.max(0, Math.min(10, gameState.attributes[attr] + choice.attributes_change[attr]));
+                });
+            }
+
+            gameState.choices++;
+            displayScene(choice.next_scene);
+        }
+
+        // Update attributes display
+        function updateAttributesDisplay() {
+            const attrs = ['razao', 'fe', 'empatia', 'acao'];
+            attrs.forEach(attr => {
+                const value = gameState.attributes[attr];
+                document.getElementById(attr + 'Value').textContent = value;
+                document.getElementById(attr + 'Bar').style.width = (value * 10) + '%';
+            });
+        }
+
+        // Start game
+        function startGame() {
+            document.getElementById('menuScreen').style.display = 'none';
+            document.getElementById('gameScreen').classList.add('active');
+            displayScene('S01_PROLOGO');
+        }
+
+        // Load game
+        function loadGame() {
+            const saved = localStorage.getItem('gameState');
+            if (saved) {
+                const loadedState = JSON.parse(saved);
+                Object.assign(gameState, loadedState);
+                document.getElementById('menuScreen').style.display = 'none';
+                document.getElementById('gameScreen').classList.add('active');
+                displayScene(gameState.currentScene);
+                alert('Jogo carregado com sucesso!');
+            } else {
+                alert('Nenhum jogo salvo encontrado. Inicie um novo jogo.');
+            }
+        }
+
+        // Toggle info
+        function toggleInfo() {
+            const info = document.getElementById('infoSection');
+            info.classList.toggle('active');
+        }
+
+        // Show menu
+        function showMenu() {
+            document.getElementById('gameScreen').classList.remove('active');
+            document.getElementById('menuScreen').style.display = 'flex';
+        }
+
+        // Save game on page unload
+        window.addEventListener('beforeunload', function() {
+            localStorage.setItem('gameState', JSON.stringify(gameState));
+        });
+
+        // Initialize game
+        window.addEventListener('DOMContentLoaded', function() {
+            loadNarrativeData();
+        });
+    </script>
+</body>
+</html>
