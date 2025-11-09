@@ -1,0 +1,116 @@
+{
+  "scenes": [
+    {
+      "id": "S01_PROLOGO",
+      "title": "O Despertar: A Cicatriz da Rotina",
+      "text": "Você acorda. Não em uma linha de produção, mas em um cubículo idêntico a milhões. Seu nome é **Elias**, um 'Cidadão Funcional' de 32 anos. A rotina é a sua prisão: 7h00 - Despertar. 7h30 - Consumo de Nutri-Gel. 8h00 - Início da Função. A sociedade, chamada 'A Coesão', eliminou a dor e a incerteza, mas levou consigo a paixão. Hoje, ao tomar seu Nutri-Gel, você sente um gosto amargo, uma falha no sistema. É a memória de um sonho: uma mulher, **Ayla**, e uma pergunta: 'O que você sacrificou pela paz?'",
+      "choices": [
+        {
+          "text": "Buscar Ayla. A memória é uma falha, mas a falha é a única coisa real. (Caminho da Fé/Empatia)",
+          "next_scene": "S02_AYLA",
+          "attributes_change": {"fe": 1, "empatia": 1, "razao": -1}
+        },
+        {
+          "text": "Analisar o Nutri-Gel. A falha é química, não existencial. A Razão é a única bússola. (Caminho da Razão)",
+          "next_scene": "S02_ANALISE",
+          "attributes_change": {"razao": 2, "fe": -1}
+        }
+      ]
+    },
+    {
+      "id": "S02_AYLA",
+      "title": "O Eco de Ayla: O Dilema do 734",
+      "text": "Você ignora o protocolo e sai do seu cubículo. No corredor, você encontra o Cidadão 734, **Samuel**. Ele não está chorando; ele está parado, com um pequeno objeto de madeira na mão, um brinquedo proibido. Ele é um engenheiro de manutenção, conhecido por sua apatia. Ele olha para você com um terror silencioso. Você percebe que ele está prestes a ser detectado pelo 'Supervisor de Conformidade', um drone de vigilância. Se ele for pego, será 'reintegrado' (apagado).",
+      "choices": [
+        {
+          "text": "Gritar uma distração, arriscando sua própria 'Função' para salvar Samuel. (Caminho da Ação/Empatia)",
+          "next_scene": "S03_CONSEQUENCIA_ACAO_1",
+          "attributes_change": {"acao": 2, "empatia": 1, "razao": -1}
+        },
+        {
+          "text": "Usar a lógica para desviar o drone, mantendo a conformidade aparente. (Caminho da Razão)",
+          "next_scene": "S03_CONSEQUENCIA_ACAO_2",
+          "attributes_change": {"razao": 2, "acao": -1}
+        }
+      ]
+    },
+    {
+      "id": "S02_ANALISE",
+      "title": "A Frieza da Lógica: O Manuscrito Proibido",
+      "text": "Você leva o Nutri-Gel para o laboratório de análise. A falha é real: um traço de uma substância orgânica desconhecida. Sua investigação o leva à Seção 7 da Biblioteca de Dados, onde você encontra o 'Estudo Bíblico Aprofundado'. Não é um texto religioso, mas um **manuscrito de engenharia social** que detalha como a 'Coesão' foi construída, eliminando a 'Alma' humana para alcançar a paz. O autor é **Dr. Silas**, o arquiteto da Coesão.",
+      "choices": [
+        {
+          "text": "Publicar o manuscrito. A verdade é a única salvação. (Caminho da Razão/Ação)",
+          "next_scene": "S03_CONSEQUENCIA_RAZAO_1",
+          "attributes_change": {"razao": 1, "acao": 1, "empatia": -1}
+        },
+        {
+          "text": "Buscar Dr. Silas. Apenas o criador pode desfazer a criação. (Caminho da Fé/Empatia)",
+          "next_scene": "S03_CONSEQUENCIA_RAZAO_2",
+          "attributes_change": {"fe": 2, "razao": -1}
+        }
+      ]
+    },
+    {
+      "id": "S03_CONSEQUENCIA_ACAO_1",
+      "title": "A Consequência da Empatia",
+      "text": "Você grita, o drone desvia. Samuel corre. Você perde sua 'Função' e é marcado como 'Não-Conforme'. Samuel, em gratidão, lhe entrega o objeto de madeira: é um pequeno violino. Ele sussurra: 'A Trilha Sonora da Alma. Procure a música.' Você percebe que a verdadeira falha da Coesão é a incapacidade de lidar com a beleza e a dor. Você está agora na clandestinidade, mas com um propósito e um objeto que carrega a alma de Samuel.",
+      "choices": [
+        {
+          "text": "Continuar a busca por Ayla e a Trilha Sonora.",
+          "next_scene": "S04_ATO_1_CONTINUA"
+        }
+      ]
+    },
+    {
+      "id": "S03_CONSEQUENCIA_ACAO_2",
+      "title": "O Preço da Frieza",
+      "text": "Você desvia o drone. Samuel é salvo, mas ele te olha com desprezo por sua frieza. Ele não confia em você. Você ganha uma promoção por 'Manutenção da Ordem', mas o vazio se torna um buraco negro. Você se tornou a própria Coesão. Você encontra uma nota anônima em seu cubículo: 'Ayla está no Setor Proibido. Ela é a chave para o Culto Racional.'",
+      "choices": [
+        {
+          "text": "Usar sua nova posição para acessar o Setor Proibido.",
+          "next_scene": "S04_ATO_1_CONTINUA"
+        }
+      ]
+    },
+    {
+      "id": "S03_CONSEQUENCIA_RAZAO_1",
+      "title": "O Caos da Verdade",
+      "text": "Você publica o manuscrito. O caos se instala. A 'Coesão' entra em colapso. As pessoas, sem a estrutura da rotina, enlouquecem. Você percebe que a verdade sem a alma é destrutiva. Você é caçado pelo Supervisor de Conformidade. Você deve fugir para o Setor Proibido, onde a Coesão não tem controle.",
+      "choices": [
+        {
+          "text": "Fugir para o Setor Proibido.",
+          "next_scene": "S04_ATO_1_CONTINUA"
+        }
+      ]
+    },
+    {
+      "id": "S03_CONSEQUENCIA_RAZAO_2",
+      "title": "O Encontro com o Arquiteto",
+      "text": "Você encontra Dr. Silas, um homem velho e cansado, em seu exílio autoimposto. Ele não é um vilão, mas um homem que tentou salvar a humanidade da autodestruição, eliminando a 'Alma'. Ele lhe diz: 'Ayla é minha filha. Ela é a falha que eu não consegui eliminar. Ela é a Alma. Você deve encontrá-la e decidir se a Coesão deve ser salva ou destruída.'",
+      "choices": [
+        {
+          "text": "Buscar Ayla e o Culto Racional.",
+          "next_scene": "S04_ATO_1_CONTINUA"
+        }
+      ]
+    },
+    {
+      "id": "S04_ATO_1_CONTINUA",
+      "title": "Ato I: O Labirinto do Ser - O Início da Jornada",
+      "text": "Sua jornada agora é pessoal. Você está no Labirinto, onde a Razão e a Fé se confrontam. Você carrega o peso de suas escolhas e a busca por Ayla, a Alma da Coesão. O jogo continua com a introdução de novos personagens, dilemas morais e aprofundamento da trama.",
+      "choices": [
+        {
+          "text": "Continuar a jornada...",
+          "next_scene": "S05_FIM_DEMO"
+        }
+      ]
+    },
+    {
+      "id": "S05_FIM_DEMO",
+      "title": "Fim da Demonstração V7",
+      "text": "Esta é a base do seu novo jogo. O roteiro completo continuará a partir daqui, com 50.000 palavras de profundidade filosófica, 150+ escolhas e 10 finais, abordando as questões mais profundas da condição humana, digno de Oscar e Prêmio Nobel. Agora, vamos construir a estrutura técnica para que você possa jogá-lo.",
+      "choices": []
+    }
+  ]
+}

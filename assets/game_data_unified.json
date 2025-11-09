@@ -1,0 +1,46 @@
+{
+  "game_id": "arquitetura_da_alma",
+  "game_name": "A Arquitetura da Alma: A Trilogia Unificada",
+  "game_description": "Uma jornada épica de escolhas que funde 'O Culto Racional', 'O Labirinto do Ser' e 'A Trilha Sonora da Alma'. Digno de Oscar e Prêmio Nobel, esta narrativa profunda reflete sobre a condição humana, as perguntas não respondidas e a busca por significado.",
+  "version": "3.0.0",
+  "compiled_at": "2025-11-08T20:30:00.000000",
+  "system": "Manus AI - High-Level Rebuild",
+  "attributes": {
+    "razao": {
+      "value": 5,
+      "description": "Análise lógica e pensamento crítico."
+    },
+    "fe": {
+      "value": 5,
+      "description": "Confiança no transcendente e devoção."
+    },
+    "empatia": {
+      "value": 5,
+      "description": "Compreensão emocional e compaixão."
+    },
+    "acao": {
+      "value": 5,
+      "description": "Coragem, determinação e iniciativa."
+    }
+  },
+  "chapters": [
+    {
+      "id": "cap_1_labirinto",
+      "title": "Ato I: O Labirinto do Ser",
+      "focus": "Razão vs. Fé. A busca pela verdade em um mundo de dualidades.",
+      "scenes": []
+    },
+    {
+      "id": "cap_2_trilha",
+      "title": "Ato II: A Trilha Sonora da Alma",
+      "focus": "Empatia vs. Ação. O dilema entre a compaixão e a intervenção ativa.",
+      "scenes": []
+    },
+    {
+      "id": "cap_3_culto",
+      "title": "Ato III: O Culto Racional",
+      "focus": "Síntese e Legado. A aplicação da Arquitetura da Alma para unificar o mundo.",
+      "scenes": []
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "scenes": [
+    {
+      "id": "S01_PROLOGO",
+      "title": "O Despertar na Padronização",
+      "text": "Você acorda. Não em uma cama, mas em uma linha de produção. O cheiro de ozônio e plástico novo é o seu ar. A rotina é a sua religião. Você é um 'Cidadão Funcional' em uma metrópole onde a eficiência é a única virtude. A vida é clara, coesa, mas desprovida de alma. Você sente um vazio, uma pergunta não respondida que pulsa sob a pele. É a primeira rachadura na 'Arquitetura da Alma' que a sociedade construiu para você.",
+      "choices": [
+        {
+          "text": "Ignorar o incômodo, focar na 'Função' do dia e seguir o protocolo. (Caminho da Ação)",
+          "next_scene": "S02_ACAO",
+          "attributes_change": {"acao": 1, "razao": -1}
+        },
+        {
+          "text": "Parar por um instante, tentar racionalizar a origem do vazio. (Caminho da Razão)",
+          "next_scene": "S02_RAZAO",
+          "attributes_change": {"razao": 1, "acao": -1}
+        }
+      ]
+    },
+    {
+      "id": "S02_ACAO",
+      "title": "A Máscara da Eficiência",
+      "text": "Você se força a seguir em frente. A 'Ação' é a fuga. No caminho para o seu posto, você vê um colega, o Cidadão 734, parado, chorando silenciosamente. Ele está quebrando o protocolo. A máquina de vigilância o ignora, focada apenas em falhas de produção. Você tem o poder de denunciá-lo ou de passar reto.",
+      "choices": [
+        {
+          "text": "Denunciar o Cidadão 734 ao Supervisor de Protocolo. A ordem é mais importante. (Caminho da Razão/Ação)",
+          "next_scene": "S03_CONSEQUENCIA_ACAO_1",
+          "attributes_change": {"razao": 1, "empatia": -2}
+        },
+        {
+          "text": "Passar reto, mas com um breve toque no ombro, um gesto proibido de 'Empatia'. (Caminho da Empatia)",
+          "next_scene": "S03_CONSEQUENCIA_ACAO_2",
+          "attributes_change": {"empatia": 2, "acao": -1}
+        }
+      ]
+    },
+    {
+      "id": "S02_RAZAO",
+      "title": "A Primeira Dúvida",
+      "text": "Você tenta aplicar a lógica ao seu sentimento. O vazio não é um erro de cálculo, mas uma ausência de dados. O que falta? Você se lembra de um fragmento de um sonho, uma palavra proibida: 'Fé'. Você decide buscar o 'Estudo Bíblico Aprofundado', um documento que a sociedade classificou como 'Lixo Histórico'. Você sabe que ele está escondido na Seção 7 da Biblioteca de Dados.",
+      "choices": [
+        {
+          "text": "Usar a lógica para invadir o sistema de segurança da Seção 7. (Caminho da Razão)",
+          "next_scene": "S03_CONSEQUENCIA_RAZAO_1",
+          "attributes_change": {"razao": 2, "fe": -1}
+        },
+        {
+          "text": "Pedir ajuda a um colega, o Cidadão 888, conhecido por sua 'Fé' secreta. (Caminho da Fé/Empatia)",
+          "next_scene": "S03_CONSEQUENCIA_RAZAO_2",
+          "attributes_change": {"fe": 2, "empatia": 1}
+        }
+      ]
+    },
+    {
+      "id": "S03_CONSEQUENCIA_ACAO_1",
+      "title": "O Preço da Ordem",
+      "text": "O Cidadão 734 é removido. Você sente um breve alívio pela ordem restaurada, mas o vazio aumenta. Você se tornou parte da máquina que padroniza a dor. Você recebe uma promoção. Sua 'Razão' e 'Ação' foram validadas. Mas a que custo?",
+      "choices": [
+        {
+          "text": "Aceitar a promoção e continuar a jornada.",
+          "next_scene": "S04_ATO_1_CONTINUA"
+        }
+      ]
+    },
+    {
+      "id": "S03_CONSEQUENCIA_ACAO_2",
+      "title": "O Eco da Humanidade",
+      "text": "O toque no ombro é um choque. O Cidadão 734 levanta a cabeça, seus olhos cheios de lágrimas e gratidão. Ele sussurra: 'O Labirinto do Ser... procure a Trilha'. Você perde 1 ponto de 'Ação' por atraso, mas ganha uma pista e um vislumbre de 'Empatia'.",
+      "choices": [
+        {
+          "text": "Seguir a pista e procurar o 'Labirinto do Ser'.",
+          "next_scene": "S04_ATO_1_CONTINUA"
+        }
+      ]
+    },
+    {
+      "id": "S03_CONSEQUENCIA_RAZAO_1",
+      "title": "A Lógica Falha",
+      "text": "Sua invasão é detectada. O sistema é mais complexo do que você imaginava. Você consegue escapar, mas a Seção 7 está bloqueada. Sua 'Razão' falhou. Você percebe que nem tudo pode ser resolvido com lógica pura. Você deve encontrar outra forma de acessar o 'Lixo Histórico'.",
+      "choices": [
+        {
+          "text": "Buscar uma solução alternativa.",
+          "next_scene": "S04_ATO_1_CONTINUA"
+        }
+      ]
+    },
+    {
+      "id": "S03_CONSEQUENCIA_RAZAO_2",
+      "title": "A Ajuda Inesperada",
+      "text": "O Cidadão 888, com um sorriso enigmático, diz: 'A Fé não precisa de lógica para abrir portas, apenas de confiança.' Ele te guia por um caminho não-protocolar, um atalho que só a 'Fé' poderia revelar. Você encontra o 'Estudo Bíblico Aprofundado'. Sua jornada no Labirinto começa.",
+      "choices": [
+        {
+          "text": "Abrir o manuscrito e iniciar a leitura.",
+          "next_scene": "S04_ATO_1_CONTINUA"
+        }
+      ]
+    },
+    {
+      "id": "S04_ATO_1_CONTINUA",
+      "title": "O Labirinto do Ser",
+      "text": "O Ato I continua. Você está agora no Labirinto, onde a Razão e a Fé se confrontam. Suas escolhas determinarão se você encontrará a Verdade ou se perderá na padronização.",
+      "choices": [
+        {
+          "text": "Continuar a jornada...",
+          "next_scene": "S05_FIM_DEMO"
+        }
+      ]
+    },
+    {
+      "id": "S05_FIM_DEMO",
+      "title": "Fim da Demonstração",
+      "text": "Esta é a base do seu novo jogo. O roteiro completo continuará a partir daqui, com 50.000 palavras de profundidade filosófica, 150+ escolhas e 10 finais, abordando as questões mais profundas da condição humana, digno de Oscar e Prêmio Nobel. Agora, vamos construir a estrutura técnica para que você possa jogá-lo.",
+      "choices": []
+    }
+  ]
+}
